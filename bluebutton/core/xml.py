@@ -16,9 +16,9 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
 def parse(data):
-    if not data or not isinstance(data, basestring):
-        logging.info('BB Error: XML data is not a string')
-        return None
+    #if not data or not isinstance(data, basestring):
+        #logging.info('BB Error: XML data is not a string')
+        #return None
 
     try:
         root = etree.fromstring(data)
@@ -128,8 +128,8 @@ class _Element(object):
             if not hasattr(el, 'parent'):
                 # TODO: replace with lxml .parent so we don't have to traverse a sub-tree *every* time we call this function
                 parent_map = {c: p for p in self._element.iter() for c in p}
-                el.parent = parent_map[el]
-            return self._wrap_element(el.parent)
+                el.set('parent', parent_map[el])
+            return self._wrap_element(el.get('parent'))
 
     def val(self):
         """

@@ -6,13 +6,13 @@
 
 from . import core
 from . import documents
-import documents.ccda
-import parsers.ccda
+from .documents.ccda import process
+from .parsers.ccda import run
 
 
 class BlueButton(object):
     def __init__(self, source, options=None):
-        type, parsed_document, parsed_data = None, None, None
+        doc_type, parsed_document, parsed_data = None, None, None
 
         if options is None:
             opts = dict()
@@ -22,20 +22,20 @@ class BlueButton(object):
         if 'parser' in opts:
             parsed_document = opts['parser']()
         else:
-            type = documents.detect(parsed_data)
+            doc_type = documents.detect(parsed_data)
 
-            if 'c32' == type:
+            if 'c32' == doc_type:
                 # TODO: add support for legacy C32
                 # parsed_data = documents.C32.process(parsed_data)
                 # parsed_document = parsers.C32.run(parsed_data)
                 pass
-            elif 'ccda' == type:
-                parsed_data = documents.ccda.process(parsed_data)
-                parsed_document = parsers.ccda.run(parsed_data)
-            elif 'json' == type:
+            elif 'ccda' == doc_type:
+                parsed_data = process(parsed_data)
+                parsed_document = run(parsed_data)
+            elif 'json' == doc_type:
                 # TODO: add support for JSON
                 pass
 
-        self.type = type
+        self.type = doc_type
         self.data = parsed_document
         self.source = parsed_data

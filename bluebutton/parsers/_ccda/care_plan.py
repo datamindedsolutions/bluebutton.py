@@ -4,10 +4,8 @@
 # Use of this source code is governed by the license found in the LICENSE file.
 ###############################################################################
 
-from bluebutton import core
-from bluebutton.core import codes
-from bluebutton import documents
-from ...core import wrappers
+from ...core._core import strip_whitespace
+from ...core.wrappers import ObjectWrapper, ListWrapper
 
 
 def care_plan(ccda):
@@ -35,10 +33,10 @@ def care_plan(ccda):
             code_system = el.attr('codeSystem')
             code_system_name = el.attr('codeSystemName')
 
-        text = core.strip_whitespace(entry.tag('text').val())
+        text = strip_whitespace(entry.tag('text').val())
 
         data.append(
-            wrappers.ObjectWrapper(
+            ObjectWrapper(
                 text=text,
                 name=name,
                 code=code,
@@ -46,4 +44,4 @@ def care_plan(ccda):
                 code_system_name=code_system_name
                 ))
 
-    return wrappers.ListWrapper(data)
+    return ListWrapper(data)

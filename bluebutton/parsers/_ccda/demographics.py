@@ -4,17 +4,11 @@
 # Use of this source code is governed by the license found in the LICENSE file.
 ###############################################################################
 
-from bluebutton import core
-from bluebutton.core import codes
-from bluebutton import documents
-from ...core import wrappers
+from ...documents import parse_date, parse_name, parse_address
+from ...core import wrappers, codes
 
 
 def demographics(ccda):
-    parse_date = documents.parse_date
-    parse_name = documents.parse_name
-    parse_address = documents.parse_address
-
     demographics = ccda.section('demographics')
 
     patient = demographics.tag('patientRole')
